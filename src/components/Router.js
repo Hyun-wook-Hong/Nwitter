@@ -4,9 +4,7 @@ import Auth from "../routes/Auth";
 import Home from "../routes/Home";
 
 
-const AppRouter = () => { 
-    // login 했으면 home, 안 했으면 login 페이지로
-    const [isLoggedIn, setIsLoggedIn] = useState(true);
+const AppRouter = ({ isLoggedIn }) => { 
     return (
     <Router>
         <Switch>
