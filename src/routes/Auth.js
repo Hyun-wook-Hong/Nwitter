@@ -1,8 +1,10 @@
 import React, { useState } from "react";
+import { authService } from "../myBase";
 
 const Auth= () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [newAccount, setNewAccount] = useState(true);
 
     const onChange = (event) => {
         const { 
@@ -14,16 +16,35 @@ const Auth= () => {
             setPassword(value);        
         }
     };
-    const onSubmit = (event) =>{
+    const onSubmit = async(event) =>{
+        // 사용자가 컨트롤할 수 있도록, event를 Default 상태로 되돌려놓지 않겠다는 의미
         event.preventDefault();
+        try{
+            let data;
+                if(newAccount){
+                    // create account
+                    data = await authService.createUserWithEmailAndPassword(
+                        email, password
+                    );
+                }
+                //else login
+                else{
+                    data = await authService.signInWithEmailAndPassword(
+                        email, password
+                    );
+                }
+                console.log(data);
+        }catch(error){
+            console.log("Unexpected exception caused! " + error);
+        }
     }
 
     return(
     <div>
-        <form onSubmit={onSubmit}> 
+        <form onSubmit={onSubmit}>       
             <input 
                 name="email"
-                type="text" 
+                type="email" 
                 placeholder="Email" 
                 required 
                 value={email} 
@@ -37,7 +58,7 @@ const Auth= () => {
                 value={password} 
                 onChange={onChange}
             />
-            <input type="submit" value="Log In" />  
+            <input type="submit" value={ newAccount ? "Create Account" : "Login" }/>  
         </form> 
         <div>
             <button>Continue with Google</button>
