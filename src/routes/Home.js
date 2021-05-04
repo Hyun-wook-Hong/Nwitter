@@ -1,5 +1,6 @@
 import React, {useState, useEffect } from "react";
-import { authService, dbService, firebaseInstance } from "../myBase";
+import { authService, dbService, firebaseInstance } from "myBase";
+import Nweet from "components/Nweet";
 
 // Tweet을 날릴 수 있는 Home route -> Firebase DB와 연동
 // Firebase의 DB는 NoSQL임 (간단, 강력, Vㅔ리 플렉서블)
@@ -70,9 +71,11 @@ const Home= ({ userObj }) => {
         </form>
         <div>
             {nweets.map((nweet) => (
-                <div key={nweet.id}>
-                    <h4>{nweet.text}</h4>
-                </div>
+                <Nweet 
+                    key={nweet.id} 
+                    nweetObj={nweet} 
+                    isOwner={nweet.creatorId === userObj.uid} 
+                />
             ))}
         </div>
     </div>
