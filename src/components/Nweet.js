@@ -17,9 +17,6 @@ const Nweet = ({ nweetObj, isOwner }) => {
             // delete nweet
             await dbService.doc(`nweets/${nweetObj.id}`).delete();
         }
-        else if(!OK){
-            // return
-        }
     }
     const toggleEditing = () => setEditing((prev) => !prev);
     const onSubmit = async (event) => { 

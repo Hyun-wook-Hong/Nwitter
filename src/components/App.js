@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import AppRouter from "components/Router";
-import { authService } from "../myBase";
-import Auth from "routes/Auth";
+import { authService } from "myBase";
 
 function App() {
   // firebase의 auth 모듈 호출
@@ -10,17 +9,17 @@ function App() {
   const [Init, setInit] = useState(false);
 
   // 5/3 login 후 로그인여부 확인하도록 isLoggedIn, useState 변경
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  // 5/4 01 userObj Object에서 User 로그인 정보를 받아오기 때문에 isLoggedIn이라는 state를 중복해서 쓸 필욘 없다. (선택하면됨, 난 선택)
+  //const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const [userObj, setUserObj] = useState(null);
 
   useEffect(() => {
     authService.onAuthStateChanged((user) => {
       if(user){
-        setIsLoggedIn(true);
+        // 5/4 01 
+        // setIsLoggedIn(true);
         setUserObj(user);
-      }else{ 
-        setIsLoggedIn(false);
       }
       setInit(true);
     });
@@ -28,7 +27,7 @@ function App() {
   }, []);
   return (
     <>
-    { Init ? <AppRouter isLoggedIn={isLoggedIn} userObj={userObj} /> : "Initializing...." }
+    { Init ? <AppRouter isLoggedIn={Boolean(userObj)} userObj={userObj} /> : "Initializing...." }
     <footer>&copy;  { new Date().getFullYear() } Nwitter</footer>
     </>
   );
