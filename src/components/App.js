@@ -12,10 +12,13 @@ function App() {
   // 5/3 login 후 로그인여부 확인하도록 isLoggedIn, useState 변경
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
+  const [userObj, setUserObj] = useState(null);
+
   useEffect(() => {
     authService.onAuthStateChanged((user) => {
       if(user){
         setIsLoggedIn(true);
+        setUserObj(user);
       }else{ 
         setIsLoggedIn(false);
       }
@@ -25,7 +28,7 @@ function App() {
   }, []);
   return (
     <>
-    { Init ? <AppRouter isLoggedIn={isLoggedIn}/> : "Initializing...." }
+    { Init ? <AppRouter isLoggedIn={isLoggedIn} userObj={userObj} /> : "Initializing...." }
     <footer>&copy;  { new Date().getFullYear() } Nwitter</footer>
     </>
   );

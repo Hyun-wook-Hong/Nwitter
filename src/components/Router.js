@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React from "react";
 import { HashRouter as Router, Redirect, Route, Switch } from "react-router-dom";
 
 import       Auth from "routes/Auth";
@@ -11,7 +11,7 @@ import Navigation from "components/Navigation";
 isLoggedIn && <Navigation /> --> 무조건 true여야만 Navagation component 출력함
 */
 
-const AppRouter = ({ isLoggedIn }) => { 
+const AppRouter = ({ isLoggedIn, userObj }) => { 
     return (
     <Router>
         {isLoggedIn && <Navigation />}
@@ -19,7 +19,7 @@ const AppRouter = ({ isLoggedIn }) => {
             {isLoggedIn ? (
                 <>
                     <Route exact path="/">
-                    <Home />
+                    <Home userObj={userObj} />
                     </Route>
                     <Route exact path="/profile">
                     <Profile />
