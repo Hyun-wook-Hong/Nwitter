@@ -13,7 +13,7 @@ const Home= ({ userObj }) => {
     const [nweets, setNweets] = useState([]);
 
     // 컴포넌트가 Mount될 때 실행될때
-    // this is old version
+    // this method is getting old version nweet. 새로고침 해야만 갱신됨
     /*
     const getNweets = async() =>{
         // 이렇게 바로 가져오면 object 형 querySnapshot을 return 함.
@@ -34,7 +34,8 @@ const Home= ({ userObj }) => {
     // 5/4 getNweets 방식을 snapshot에서 가져오는 방식으로 변경한다.
     useEffect(()=>{  
         //onSnapshot: DB의 변화를 실시간으로 알려준다. - 공식문서에 나옴
-        dbService.collection("nweets").onSnapshot((snapshot) => {
+        //onSnapshot으로 가져온 nweets 순서가 뒤죽박죽이었는데, 아래와 같이 orderBy 옵션을 줄 수 있다.
+        dbService.collection("nweets").orderBy("createdAt", "desc").onSnapshot((snapshot) => {
             const nweetArray = snapshot.docs.map(doc => ({
                 id: doc.id,
                 ...doc.data(),
