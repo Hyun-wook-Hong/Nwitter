@@ -7,7 +7,7 @@ import Nweet from "components/Nweet";
 
 // 5/4 Auth.js에서 로그인할 때 기록한 유저 정보를 props로 받아왔다.
 const Home= ({ userObj }) => {
-    console.log(userObj);
+    //console.log(userObj);
     // onSubmit에서 전송할 nweet
     const [nweet, setNweet] = useState("");
     // firebase DB에서 가져온 nweet
@@ -63,10 +63,24 @@ const Home= ({ userObj }) => {
             setNweet(value);
     };
     //console.log(nweets);
+    const onFileChange = (event) =>{
+        const {target:{ files }, }
+        = event;
+
+        const theFiles = files[0];
+        // FileReader API 객체 생성
+        const reader = new FileReader(); 
+        // Data URL
+        reader.onloadend = (finishedevent) =>{
+            console.log(finishedevent);
+        };
+        reader.readAsDataURL(theFiles);
+    };
     return(
     <div>
         <form onSubmit={ onSubmit }>
             <input value={nweet} onChange={onChange} type="text" placeholder="What's on your mind?" maxLength={120} />
+            <input type="file" accept="image/*" onChange={onFileChange}/>
             <input type="submit" value="Nweet"/>
         </form>
         <div>
