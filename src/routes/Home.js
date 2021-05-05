@@ -65,25 +65,22 @@ const Home= ({ userObj }) => {
             setNweet(value);
     };
     //console.log(nweets);
-    const onFileChange = (event) =>{
-        const {target:{ files }, }
-        = event;
-
-        const theFiles = files[0];
-        // FileReader API 객체 생성
-        const reader = new FileReader(); 
-        // Data URL
-        reader.onloadend = (finishedEvent) =>{
+    const onFileChange = (event) => {
+        const {
+          target: { files },
+        } = event;
+        const theFile = files[0];
+        const reader = new FileReader();
+        reader.onloadend = (finishedEvent) => {
             const {
-                currentTarget: 
-                    {result }
-                  } = finishedEvent;
-            setAttachment(result)
+                currentTarget: { result },
+              } = finishedEvent;
+              setAttachment(result);
         };
-        reader.readAsDataURL(theFiles);
-    };
+        reader.readAsDataURL(theFile);
+      };
 
-    const onClearAttachment = () => setAttachment(null);
+      const onClearAttachment = () => setAttachment(null);
     return(
     <div>
         <form onSubmit={ onSubmit }>
@@ -94,7 +91,7 @@ const Home= ({ userObj }) => {
             (
                 <div> 
                     <img src={attachment} width="50px" height="50px" /> 
-                    <button onChange={onClearAttachment}>Clear</button>
+                    <button onClick={onClearAttachment}>Clear</button>
                 </div> )
             }
         </form>
