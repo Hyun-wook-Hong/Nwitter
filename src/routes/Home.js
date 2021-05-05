@@ -8,10 +8,12 @@ import Nweet from "components/Nweet";
 // 5/4 Auth.js에서 로그인할 때 기록한 유저 정보를 props로 받아왔다.
 const Home= ({ userObj }) => {
     //console.log(userObj);
-    // onSubmit에서 전송할 nweet
+    // onSubmit에서 전송할 nweet state
     const [nweet, setNweet] = useState("");
-    // firebase DB에서 가져온 nweet
+    // firebase DB에서 가져온 nweet state
     const [nweets, setNweets] = useState([]);
+    // 파일첨부 state
+    const [attachment, setAttachment] = useState();
 
     // 컴포넌트가 Mount될 때 실행될때
     // this method is getting old version nweet. 새로고침 해야만 갱신됨
@@ -71,17 +73,30 @@ const Home= ({ userObj }) => {
         // FileReader API 객체 생성
         const reader = new FileReader(); 
         // Data URL
-        reader.onloadend = (finishedevent) =>{
-            console.log(finishedevent);
+        reader.onloadend = (finishedEvent) =>{
+            const {
+                currentTarget: 
+                    {result }
+                  } = finishedEvent;
+            setAttachment(result)
         };
         reader.readAsDataURL(theFiles);
     };
+
+    const onClearAttachment = () => setAttachment(null);
     return(
     <div>
         <form onSubmit={ onSubmit }>
             <input value={nweet} onChange={onChange} type="text" placeholder="What's on your mind?" maxLength={120} />
             <input type="file" accept="image/*" onChange={onFileChange}/>
             <input type="submit" value="Nweet"/>
+            { attachment && 
+            (
+                <div> 
+                    <img src={attachment} width="50px" height="50px" /> 
+                    <button onChange={onClearAttachment}>Clear</button>
+                </div> )
+            }
         </form>
         <div>
             {nweets.map((nweet) => (
