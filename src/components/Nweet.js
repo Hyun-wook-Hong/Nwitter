@@ -3,7 +3,7 @@
   Description: Nweet message update and delete component (if your own nweet) 
   Author: Hyun-wook Hong
 */
-import { dbService } from "myBase";
+import { dbService, storageService } from "myBase";
 import React, {useState} from "react";
 
 const Nweet = ({ nweetObj, isOwner }) => {
@@ -16,6 +16,7 @@ const Nweet = ({ nweetObj, isOwner }) => {
         if(OK){
             // delete nweet
             await dbService.doc(`nweets/${nweetObj.id}`).delete();
+            await storageService.refFromURL(nweetObj.attachmentURL).delete();
         }
     }
     const toggleEditing = () => setEditing((prev) => !prev);
@@ -48,6 +49,7 @@ const Nweet = ({ nweetObj, isOwner }) => {
         { isOwner && (
             <>
                 <h4>{nweetObj.text}</h4>
+                { nweetObj.attachmentURL && ( <img src={nweetObj.attachmentURL} width="50px" height="50px" /> ) }
                 <button onClick={onDeleteClick} >Delete Nweet</button>
                 <button onClick={toggleEditing} >Update Nweet</button>
             </>

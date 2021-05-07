@@ -1,5 +1,6 @@
 import React, {useState, useEffect } from "react";
-import { authService, dbService, firebaseInstance } from "myBase";
+import { v4 as uuidv4 } from "uuid";
+import { authService, dbService, firebaseInstance, storageService } from "myBase";
 import Nweet from "components/Nweet";
 
 // Tweet을 날릴 수 있는 Home route -> Firebase DB와 연동
@@ -37,7 +38,7 @@ const Home= ({ userObj }) => {
     // 5/4 getNweets 방식을 snapshot에서 가져오는 방식으로 변경한다.
     useEffect(()=>{  
         //onSnapshot: DB의 변화를 실시간으로 알려준다. - 공식문서에 나옴
-        //onSnapshot으로 가져온 nweets 순서가 뒤죽박죽이었는데, 아래와 같이 orderBy 옵션을 줄 수 있다.
+        //onSnapshot에 아래와 같이 orderBy 옵션을 줄 수 있다.
         dbService.collection("nweets").orderBy("createdAt", "desc").onSnapshot((snapshot) => {
             const nweetArray = snapshot.docs.map(doc => ({
                 id: doc.id,
@@ -49,13 +50,27 @@ const Home= ({ userObj }) => {
 
     const onSubmit = async (event) => {
         event.preventDefault();
-        dbService.collection("nweets").add({ 
+
+        let attachmentURL = "";
+        if(attachment !== "")
+        {
+            // 5/7 npm install uuid --> uuid는 어떠한 식별자를 랜덤으로 생성해줌
+            const attachmentRef = storageService
+                .ref()
+                .child(`${userObj.uid}/${uuidv4()}`)
+            const response = await attachmentRef.putString(attachment, "data_url");
+            attachmentURL = await response.ref.getDownloadURL();
+        }
+        const nweetObj = {
             text: nweet,
             createdAt: Date.now(),
             creatorId: userObj.uid,
-         });
-         // 데이터 보내고 나면 Nweet value는 빈 문자열로.
+            attachmentURL
+        };
+        dbService.collection("nweets").add(nweetObj);
+         // 데이터 보내고 나면 Nweet value, attachmentURL은 빈 문자열로.
          setNweet("");
+         setAttachment("");
     }
 
     const onChange = (event) =>{
