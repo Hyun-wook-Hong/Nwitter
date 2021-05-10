@@ -19,15 +19,31 @@ function App() {
       if(user){
         // 5/4 01 
         // setIsLoggedIn(true);
-        setUserObj(user);
+        // 5/10 setUserObj minimalize
+        setUserObj({
+          displayName: user.displayName,
+          uid: user.uid,
+          updateProfile: (args) => user.updateProfile(args),
+        });
+      }else{ 
+        setUserObj(null); 
       }
       setInit(true);
     });
 
   }, []);
+  // user 새로고침 시 업데이트
+  const refreshUser = () =>{
+    const user = authService.currentUser;
+    setUserObj({
+      displayName: user.displayName,
+      uid: user.uid,
+      updateProfile: (args) => user.updateProfile(args),
+    });
+  }
   return (
     <>
-    { Init ? <AppRouter isLoggedIn={Boolean(userObj)} userObj={userObj} /> : "Initializing...." }
+    { Init ? <AppRouter refreshUser={refreshUser} isLoggedIn={Boolean(userObj)} userObj={userObj} /> : "Initializing...." }
     </>
   );
 }

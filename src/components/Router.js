@@ -11,7 +11,7 @@ import Navigation from "components/Navigation";
 isLoggedIn && <Navigation /> --> 무조건 true여야만 Navagation component 출력함
 */
 
-const AppRouter = ({ isLoggedIn, userObj }) => { 
+const AppRouter = ({ refreshUser, isLoggedIn, userObj }) => { 
     return (
     <Router>
         {isLoggedIn && <Navigation userObj={userObj} />}
@@ -22,7 +22,7 @@ const AppRouter = ({ isLoggedIn, userObj }) => {
                     <Home userObj={userObj} />
                     </Route>
                     <Route exact path="/profile">
-                    <Profile userObj={userObj}/>
+                    <Profile refreshUser={refreshUser} userObj={userObj}/>
                     </Route>
                     <Redirect from="*" to="/" /> 
                 </>

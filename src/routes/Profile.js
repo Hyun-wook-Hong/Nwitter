@@ -1,8 +1,9 @@
 import { authService, dbService } from "myBase";
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
+import Auth from "./Auth";
 
-export default ({ userObj }) => {
+export default ({ refreshUser, userObj }) => {
     const history = useHistory();
     const [newDisplayName, setNewDisplayName] = useState(userObj.displayName);
     const onLogOutClick = () => {
@@ -22,6 +23,7 @@ export default ({ userObj }) => {
                 displayName: newDisplayName,
             });
         }
+        refreshUser();
     };
 
     const getMyNweets = async () => 
