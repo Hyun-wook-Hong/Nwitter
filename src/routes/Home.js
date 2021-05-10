@@ -14,7 +14,7 @@ const Home= ({ userObj }) => {
     // firebase DB에서 가져온 nweet state
     const [nweets, setNweets] = useState([]);
     // 파일첨부 state
-    const [attachment, setAttachment] = useState();
+    const [attachment, setAttachment] = useState("");
 
     // 컴포넌트가 Mount될 때 실행될때
     // this method is getting old version nweet. 새로고침 해야만 갱신됨
