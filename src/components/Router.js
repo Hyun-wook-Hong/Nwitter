@@ -14,7 +14,7 @@ isLoggedIn && <Navigation /> --> 무조건 true여야만 Navagation component �
 const AppRouter = ({ isLoggedIn, userObj }) => { 
     return (
     <Router>
-        {isLoggedIn && <Navigation />}
+        {isLoggedIn && <Navigation userObj={userObj} />}
         <Switch>
             {isLoggedIn ? (
                 <>
