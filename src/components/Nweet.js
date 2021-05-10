@@ -5,6 +5,8 @@
 */
 import { dbService, storageService } from "myBase";
 import React, {useState} from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTrash, faPencilAlt } from "@fortawesome/free-solid-svg-icons";
 
 const Nweet = ({ nweetObj, isOwner }) => {
     const [editing, setEditing] = useState(false);
@@ -34,25 +36,29 @@ const Nweet = ({ nweetObj, isOwner }) => {
         setNewNweet(value);
     }
     return (
-    <div>
+    <div className="nweet">
         { editing ? ( 
             <>
-            <form onSubmit={onSubmit}>
-                <input type="text" placeholder="Edit your nweet" value={newNweet} required onChange={onChange}/>
-                <input type="submit" value="Update Nweet" />
+            <form onSubmit={onSubmit} className="container nweetEdit" >
+                <input type="text" placeholder="Edit your nweet" value={newNweet} required autoFocus onChange={onChange} className="formInput"/>
+                <input type="submit" value="Update Nweet" className="formBtn"/>
             </form>
-            <button onClick={toggleEditing}>Cancel</button>
+            <button onClick={toggleEditing} className="formBtn cancelBtn">Cancel</button>
             </>
          ) 
          : 
         (<>
+        <h4>{nweetObj.text}</h4>
+        {nweetObj.attachmentURL && <img src={nweetObj.attachmentURL} />}
         { isOwner && (
-            <>
-                <h4>{nweetObj.text}</h4>
-                { nweetObj.attachmentURL && ( <img src={nweetObj.attachmentURL} width="50px" height="50px" /> ) }
-                <button onClick={onDeleteClick} >Delete Nweet</button>
-                <button onClick={toggleEditing} >Update Nweet</button>
-            </>
+            <div className="nweet__actions">
+                <span onClick={onDeleteClick} >
+                    <FontAwesomeIcon icon={faTrash}/>
+                </span>
+                <span onClick={toggleEditing} >
+                    <FontAwesomeIcon icon={faPencilAlt}/>
+                </span>
+            </div>
             )}
         </>
     )}    
