@@ -1,13 +1,13 @@
 @import "https://cdn.jsdelivr.net/npm/reset-css@5.0.1/reset.min.css";
 
-* {
-  box-sizing: border-box;
-}
-
 input {
   all: unset;
   box-sizing: border-box;
   appearance: none;
+}
+
+* {
+  box-sizing: border-box;
 }
 
 body {
@@ -167,7 +167,7 @@ form {
 }
 
 .nweet {
-  margin-bottom: 20px;
+  margin-bottom: 25px;
   background-color: white;
   width: 100%;
   max-width: 320px;
@@ -206,6 +206,7 @@ form {
 .nweet__actions span:first-child {
   margin-right: 10px;
 }
+
 
 /* Auth */
 

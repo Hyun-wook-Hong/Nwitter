@@ -43,7 +43,9 @@ const Nweet = ({ nweetObj, isOwner }) => {
                 <input type="text" placeholder="Edit your nweet" value={newNweet} required autoFocus onChange={onChange} className="formInput"/>
                 <input type="submit" value="Update Nweet" className="formBtn"/>
             </form>
-            <button onClick={toggleEditing} className="formBtn cancelBtn">Cancel</button>
+            <span onClick={toggleEditing} className="formBtn cancelBtn">
+                Cancel
+                </span>
             </>
          ) 
          : 
